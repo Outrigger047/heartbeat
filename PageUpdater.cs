@@ -29,10 +29,18 @@ namespace Heartbeat
         public void ReadPage()
         {
             _htmlDoc = new HtmlDocument();
-            _htmlDoc.Load(_indexFilePath);
+            try
+            {
+                _htmlDoc.Load(_indexFilePath);
+            }
+            catch (ArgumentNullException e)
+            {
+
+                throw;
+            }
         }
 
-        private void TableInsertCurrentState(WriteEventTypes eventType)
+        public void TableInsertCurrentState(WriteEventTypes eventType)
         {
             var now = DateTime.Now;
             
@@ -61,6 +69,10 @@ namespace Heartbeat
                      <td></td>
                    </tr>"
                 );
+
+            var body = _htmlDoc.DocumentNode.SelectSingleNode("//body");
+            var headerRow = _htmlDoc.GetElementbyId(pageInfoTableHeaderRowId);
+            body.InsertAfter(nodeToInsert, headerRow);
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Heartbeat
 
                 do
                 {
-                    
+                    updater.TableInsertCurrentState(PageUpdater.WriteEventTypes.Heartbeat);
                 } while(true);
             }
         }
